@@ -27,7 +27,7 @@ public class Education {
 
     private String profession;
 
-    private LocalDate start;
+    private LocalDate startEdu;
 
-    private LocalDate end;
+    private LocalDate endEdu;
 }
