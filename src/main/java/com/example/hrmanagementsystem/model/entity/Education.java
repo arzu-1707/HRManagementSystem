@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.model;
+package com.example.hrmanagementsystem.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
