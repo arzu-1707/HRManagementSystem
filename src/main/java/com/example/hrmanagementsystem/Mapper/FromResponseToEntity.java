@@ -1,4 +1,4 @@
 package com.example.hrmanagementsystem.Mapper;
 
-public class FromResponseToEntityMapper {
+public class FromResponseToEntity {
 }

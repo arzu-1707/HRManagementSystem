@@ -1,6 +1,7 @@
 package com.example.hrmanagementsystem.controller;
 
 import com.example.hrmanagementsystem.model.CommonResponse;
+import com.example.hrmanagementsystem.model.request.CandidateRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,14 @@ public class CandidateController {
         Page<CandidateResponse> getAll = candidateService.findALl(page);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(getAll));
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
+            @RequestBody CandidateRequest candidateRequest
+            ){
+        CandidateResponse candidateResponse = candidateService.addNewCandidate(candidateRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(candidateResponse));
     }
 }
