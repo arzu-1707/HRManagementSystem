@@ -3,6 +3,8 @@ package com.example.hrmanagementsystem.service;
 import com.example.hrmanagementsystem.Mapper.FromEntityToResponse;
 import com.example.hrmanagementsystem.Mapper.FromRequestToEntityM;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateAlreadyExistsException;
+import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
+import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
@@ -28,6 +30,9 @@ public class CandidateService {
 
     public Page<CandidateResponse> findALl(Pageable page) {
         Page<Candidate> all = candidateRepository.findAll(page);
+        if (all.isEmpty()){
+            throw new CandidatesNotFoundException(ERRORCODE.CANDIDATES_NOT_FOUND_EXCEPTION);
+        }
         return FromEntityToResponse.fromCandidateResponseToPageCandidateMapper(all);
     }
 
@@ -51,5 +56,9 @@ public class CandidateService {
                 .map(telNoService::save).toList();
 
         return FromEntityToResponse.fromCandidateResponseToCandidateMapper(savedCandidate);
+    }
+
+    public void deleteCandidate(Long candidateId) {
+        candidateRepository.findById(candidateId).orElseThrow(()->new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION));
     }
 }

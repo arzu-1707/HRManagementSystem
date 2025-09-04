@@ -12,7 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/candidate")
+@RestController
+@RequestMapping("/v1/candidate")
 @RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
@@ -35,5 +36,12 @@ public class CandidateController {
         CandidateResponse candidateResponse = candidateService.addNewCandidate(candidateRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(candidateResponse));
+    }
+
+    @DeleteMapping("/{candidateId}")
+    public ResponseEntity<CommonResponse<Void>> deleteCandidate(@PathVariable Long candidateId){
+        candidateService.deleteCandidate(candidateId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success("Operation is successfully",null));
     }
 }
