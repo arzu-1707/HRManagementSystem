@@ -1,5 +1,6 @@
 package com.example.hrmanagementsystem.model.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class CandidateResponse {
 
     private String gender;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;

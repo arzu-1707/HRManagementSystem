@@ -1,5 +1,6 @@
 package com.example.hrmanagementsystem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,9 @@ public class Education {
 
     private String profession;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate startEdu;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate endEdu;
 }

@@ -1,5 +1,6 @@
 package com.example.hrmanagementsystem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Candidate {
 
     private String gender;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;
