@@ -1,5 +1,6 @@
 package com.example.hrmanagementsystem.model.entity;
 
+import com.example.hrmanagementsystem.model.enums.GENDER;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,28 +26,31 @@ public class Candidate {
     @NotBlank
     private String name;
 
+    @NotBlank
     private String surName;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private GENDER gender;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;
 
-    @ManyToMany
-    @JoinTable(
-            name = "candidate_edu",
-            joinColumns = @JoinColumn(name = "candidate_id"),
-            inverseJoinColumns = @JoinColumn(name = "education_id")
-    )
-    private List<Education> education;
+    @Builder.Default
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Education> educations = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "candidate_tel",
-            joinColumns = @JoinColumn(name = "candidate_id"),
-            inverseJoinColumns = @JoinColumn(name = "tel_id")
-    )
-    private List<TelNo> telNo;
+    @Builder.Default
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TelNo> telNo = new ArrayList<>();
+
+    public void addEdu(Education education){
+
+        educations.add(education);
+    }
+
+    public void addTelNo(TelNo telNo){
+        this.telNo.add(telNo);
+    }
 }

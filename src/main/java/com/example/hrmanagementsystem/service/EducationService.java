@@ -14,9 +14,6 @@ public class EducationService {
     private final EducationRepository educationRepository;
 
     public Education save(Education education){
-        if(educationRepository.existsById(education.getId())){
-            throw new EducationAlreadyExistsException(ERRORCODE.EDUCATION_ALREADY_EXISTS_EXCEPTION);
-        }
        return educationRepository.save(education);
     }
 }

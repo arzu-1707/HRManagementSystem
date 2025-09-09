@@ -21,7 +21,7 @@ public class FromEntityToResponse {
                 .gender(candidate.getGender())
                 .birthDate(candidate.getBirthDate())
                 .birthPlace(candidate.getBirthPlace())
-                .educations(candidate.getEducation().stream().map(
+                .educations(candidate.getEducations().stream().map(
                         Education::getId
                 ).toList())
                 .tel(candidate.getTelNo().stream().map(TelNo::getNumber).toList()).build();

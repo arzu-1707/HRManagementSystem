@@ -8,8 +8,9 @@ import com.example.hrmanagementsystem.model.request.EducationRequest;
 import com.example.hrmanagementsystem.model.request.TelNoRequest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class FromRequestToEntityM {
+public class FromRequestToEntity {
     public static Candidate fromCandidateRequestToEntityMapper(CandidateRequest candidateRequest) {
         return Candidate.builder()
                 .name(candidateRequest.getName())
@@ -17,7 +18,7 @@ public class FromRequestToEntityM {
                 .gender(candidateRequest.getGender())
                 .birthDate(candidateRequest.getBirthDate())
                 .birthPlace(candidateRequest.getBirthPlace())
-                .education(fromEducationListRequestToEducationEntityMapper(candidateRequest.getEducation()))
+                .educations(fromEducationListRequestToEducationEntityMapper(candidateRequest.getEducation()))
                 .telNo(fromTelNoRequestToTelNoEntityMapper(candidateRequest.getTelNo()))
                 .build();
     }
@@ -26,7 +27,7 @@ public class FromRequestToEntityM {
         return telNo.stream()
                 .map(telNoRequest -> TelNo.builder()
                         .number(telNoRequest.getNumber()).build())
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public static List<Education> fromEducationListRequestToEducationEntityMapper(List<EducationRequest> educations)
@@ -38,7 +39,7 @@ public class FromRequestToEntityM {
                         .profession(educationRequest.getProfession())
                         .startEdu(educationRequest.getStartEdu())
                         .endEdu(educationRequest.getEndEdu())
-                        .build()).toList();
+                        .build()).collect(Collectors.toList());
     }
 
     public static List<TelNo> fromTelNoListRequestToTelNoEntityMapper(List<TelNoRequest> telNos) {

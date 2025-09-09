@@ -1,10 +1,8 @@
 package com.example.hrmanagementsystem.model.entity;
 
+import com.example.hrmanagementsystem.model.enums.DEGREE;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,15 +20,20 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String degree;
+    @Enumerated(EnumType.STRING)
+    private DEGREE degree;
 
     private String name;
 
     private String profession;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate startEdu;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate endEdu;
+
+    @ManyToOne
+    @JoinColumn(name = "candidate_id")
+    private Candidate candidate;
 }

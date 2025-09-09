@@ -1,7 +1,7 @@
 package com.example.hrmanagementsystem.service;
 
 import com.example.hrmanagementsystem.Mapper.FromEntityToResponse;
-import com.example.hrmanagementsystem.Mapper.FromRequestToEntityM;
+import com.example.hrmanagementsystem.Mapper.FromRequestToEntity;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateAlreadyExistsException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
@@ -14,6 +14,7 @@ import com.example.hrmanagementsystem.model.request.EducationRequest;
 import com.example.hrmanagementsystem.model.request.TelNoRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,26 +37,30 @@ public class CandidateService {
         return FromEntityToResponse.fromCandidateResponseToPageCandidateMapper(all);
     }
 
+    @Transactional
     public CandidateResponse addNewCandidate(CandidateRequest candidateRequest) {
         if (candidateRepository.existsByNameAndSurName(candidateRequest.getName(), candidateRequest.getSurName())){
             throw new CandidateAlreadyExistsException(ERRORCODE.CANDIDATE_ALREADY_EXISTS_EXCEPTION);
         };
 
-       Candidate candidate = FromRequestToEntityM.fromCandidateRequestToEntityMapper(candidateRequest);
-        Candidate savedCandidate = candidateRepository.save(candidate);
+       Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateRequest);
+       // Candidate savedCandidate = candidateRepository.save(candidate);
 
         List<EducationRequest> educationsRequest = candidateRequest.getEducation();
-        List<Education> educations = FromRequestToEntityM.fromEducationListRequestToEducationEntityMapper(educationsRequest);
-        List<Education> educationList = educations.stream()
-                .map(educationService::save).toList();
-
+        List<Education> educations = FromRequestToEntity.fromEducationListRequestToEducationEntityMapper(educationsRequest);
+        educations.forEach(education -> {
+            candidate.addEdu(education);
+            education.setCandidate(candidate);}
+        );
 
         List<TelNoRequest> telNoRequest = candidateRequest.getTelNo();
-        List<TelNo> telNos = FromRequestToEntityM.fromTelNoListRequestToTelNoEntityMapper(telNoRequest);
-        List<TelNo> telNoList = telNos.stream()
-                .map(telNoService::save).toList();
+        List<TelNo> telNos = FromRequestToEntity.fromTelNoListRequestToTelNoEntityMapper(telNoRequest);
+        telNos.forEach(telNo ->{
+            candidate.addTelNo(telNo);
+            telNo.setCandidate(candidate);});
 
-        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(savedCandidate);
+        Candidate save = candidateRepository.save(candidate);
+        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(save);
     }
 
     public void deleteCandidate(Long candidateId) {

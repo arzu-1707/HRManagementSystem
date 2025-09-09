@@ -1,6 +1,9 @@
 package com.example.hrmanagementsystem.model.response;
 
+import com.example.hrmanagementsystem.model.enums.GENDER;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +25,10 @@ public class CandidateResponse {
 
     private String surName;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private GENDER gender;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate birthDate;
 
     private String birthPlace;

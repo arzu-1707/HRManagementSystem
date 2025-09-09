@@ -34,11 +34,4 @@ public class AppUsers {
     )
     private Set<Role> role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_edu",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "education_id")
-    )
-    private List<Education> education;
 }
