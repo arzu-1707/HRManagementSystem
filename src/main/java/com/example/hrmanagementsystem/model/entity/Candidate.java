@@ -48,9 +48,11 @@ public class Candidate {
     public void addEdu(Education education){
 
         educations.add(education);
+        education.setCandidate(this);
     }
 
     public void addTelNo(TelNo telNo){
         this.telNo.add(telNo);
+        telNo.setCandidate(this);
     }
 }

@@ -39,28 +39,18 @@ public class CandidateService {
 
     @Transactional
     public CandidateResponse addNewCandidate(CandidateRequest candidateRequest) {
-        if (candidateRepository.existsByNameAndSurName(candidateRequest.getName(), candidateRequest.getSurName())){
+        if (candidateRepository.existsCandidateByNameAndSurNameIgnoreCase(candidateRequest.getName(), candidateRequest.getSurName())){
             throw new CandidateAlreadyExistsException(ERRORCODE.CANDIDATE_ALREADY_EXISTS_EXCEPTION);
         };
 
        Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateRequest);
-       // Candidate savedCandidate = candidateRepository.save(candidate);
+        candidate.getEducations().forEach(e -> e.setCandidate(candidate));
+        candidate.getTelNo().forEach(t -> t.setCandidate(candidate));
 
-        List<EducationRequest> educationsRequest = candidateRequest.getEducation();
-        List<Education> educations = FromRequestToEntity.fromEducationListRequestToEducationEntityMapper(educationsRequest);
-        educations.forEach(education -> {
-            candidate.addEdu(education);
-            education.setCandidate(candidate);}
-        );
+        Candidate savedCandidate = candidateRepository.save(candidate);
 
-        List<TelNoRequest> telNoRequest = candidateRequest.getTelNo();
-        List<TelNo> telNos = FromRequestToEntity.fromTelNoListRequestToTelNoEntityMapper(telNoRequest);
-        telNos.forEach(telNo ->{
-            candidate.addTelNo(telNo);
-            telNo.setCandidate(candidate);});
 
-        Candidate save = candidateRepository.save(candidate);
-        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(save);
+        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(savedCandidate);
     }
 
     public void deleteCandidate(Long candidateId) {
