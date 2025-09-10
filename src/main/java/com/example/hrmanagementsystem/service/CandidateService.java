@@ -54,6 +54,8 @@ public class CandidateService {
     }
 
     public void deleteCandidate(Long candidateId) {
-        candidateRepository.findById(candidateId).orElseThrow(()->new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION));
+        Candidate candidate = candidateRepository.findById(candidateId)
+                .orElseThrow(() -> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION));
+        candidateRepository.delete(candidate);
     }
 }
