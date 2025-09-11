@@ -5,6 +5,7 @@ import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
+import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import org.springframework.data.domain.Page;
 
 public class FromEntityToResponse {
@@ -35,6 +36,13 @@ public class FromEntityToResponse {
                 .degree(education.getDegree())
                 .name(education.getName())
                 .profession(education.getProfession())
+                .build();
+    }
+
+    public static TelNoResponse fromTelNoToTelNoResponse(TelNo telNo) {
+        return TelNoResponse.builder()
+                .id(telNo.getId())
+                .number(telNo.getNumber())
                 .build();
     }
 }

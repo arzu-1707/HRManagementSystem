@@ -5,6 +5,7 @@ import com.example.hrmanagementsystem.model.request.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
+import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,11 +41,18 @@ public class CandidateController {
                 .body(CommonResponse.success("Operation is successfully", candidateResponse));
     }
 
-    @GetMapping("{id}/educations")
+    @GetMapping("/{id}/educations")
     public ResponseEntity<CommonResponse<List<EducationResponse>>> getEduInCandidate(@PathVariable Long id){
-        List<EducationResponse> candidateResponse = candidateService.findCandidateEducations(id);
+        List<EducationResponse> educationResponses = candidateService.findCandidateEducations(id);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success(candidateResponse));
+                .body(CommonResponse.success(educationResponses));
+    }
+
+    @GetMapping("/{id}/tel-no")
+    public ResponseEntity<CommonResponse<List<TelNoResponse>>> getTelNoInCandidate(@PathVariable Long id){
+        List<TelNoResponse> telNo = candidateService.findCandidateTelNos(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(telNo));
     }
 
     @PostMapping("/new")

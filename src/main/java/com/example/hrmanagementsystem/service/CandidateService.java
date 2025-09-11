@@ -8,11 +8,13 @@ import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundExce
 import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
+import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.request.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
+import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -83,5 +85,12 @@ public class CandidateService {
         }
        return educations.stream()
                 .map(FromEntityToResponse::fromEducationToEducationResponse).toList();
+    }
+
+    public List<TelNoResponse> findCandidateTelNos(Long id) {
+        Candidate candidate = findCandidate(id);
+        List<TelNo> telNos = candidate.getTelNo();
+        return telNos.stream()
+                .map(FromEntityToResponse::fromTelNoToTelNoResponse).toList();
     }
 }
