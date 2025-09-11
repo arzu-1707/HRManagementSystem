@@ -1,17 +1,14 @@
 package com.example.hrmanagementsystem.service;
 
-import com.example.hrmanagementsystem.Mapper.FromEntityToResponse;
-import com.example.hrmanagementsystem.Mapper.FromRequestToEntity;
+import com.example.hrmanagementsystem.mapper.FromEntityToResponse;
+import com.example.hrmanagementsystem.mapper.FromRequestToEntity;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateAlreadyExistsException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
-import com.example.hrmanagementsystem.model.entity.Education;
-import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.request.CandidateRequest;
-import com.example.hrmanagementsystem.model.request.EducationRequest;
-import com.example.hrmanagementsystem.model.request.TelNoRequest;
+import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
 import jakarta.transaction.Transactional;
@@ -19,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +52,17 @@ public class CandidateService {
         Candidate candidate = candidateRepository.findById(candidateId)
                 .orElseThrow(() -> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION));
         candidateRepository.delete(candidate);
+    }
+
+    public CandidateResponse updateCandidate(Long id, NameSurnameRequest nameSurnameRequest) {
+        Candidate candidate = findCandidate(id);
+        candidate.setName(nameSurnameRequest.getName());
+        candidate.setSurName(nameSurnameRequest.getSurName());
+        Candidate save = candidateRepository.save(candidate);
+        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(save);
+    }
+    
+    public Candidate findCandidate(Long id){
+       return candidateRepository.findById(id).orElseThrow(()-> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION) );
     }
 }

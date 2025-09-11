@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.Mapper;
+package com.example.hrmanagementsystem.mapper;
 
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
@@ -12,6 +12,7 @@ public class FromEntityToResponse {
         return all
                 .map(FromEntityToResponse::fromCandidateResponseToCandidateMapper);
     }
+
 
     public static CandidateResponse fromCandidateResponseToCandidateMapper(Candidate candidate){
         return CandidateResponse.builder()

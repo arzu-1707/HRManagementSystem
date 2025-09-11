@@ -2,6 +2,7 @@ package com.example.hrmanagementsystem.controller;
 
 import com.example.hrmanagementsystem.model.CommonResponse;
 import com.example.hrmanagementsystem.model.request.CandidateRequest;
+import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,13 @@ public class CandidateController {
         candidateService.deleteCandidate(candidateId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success("Operation is successfully",null));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CommonResponse<CandidateResponse>> updateCandidate(@PathVariable Long id,
+                                                                             @RequestBody NameSurnameRequest nameSurnameRequest){
+        CandidateResponse candidateResponse = candidateService.updateCandidate(id, nameSurnameRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success("Operation is successfully", candidateResponse));
     }
 }

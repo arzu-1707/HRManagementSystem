@@ -22,6 +22,21 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
-
 server:
   port: 8080
+  info:
+    title: Ticketing System API
+    version: 1.0
+    description: Bu HR ucun bir sistemdir. Muraciet eden namizedleri elave eden kicik bir programdir....
+    contact:
+      name: Arzu Ahmedova
+      email: arzuahmedova.1707@gmail.com
+
+
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs

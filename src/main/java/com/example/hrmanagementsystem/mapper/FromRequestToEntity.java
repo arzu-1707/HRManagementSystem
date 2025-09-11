@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.Mapper;
+package com.example.hrmanagementsystem.mapper;
 
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
