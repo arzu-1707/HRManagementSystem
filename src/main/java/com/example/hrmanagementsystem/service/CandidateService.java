@@ -65,4 +65,8 @@ public class CandidateService {
     public Candidate findCandidate(Long id){
        return candidateRepository.findById(id).orElseThrow(()-> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION) );
     }
+
+    public CandidateResponse findCandidateById(Long id) {
+       return FromEntityToResponse.fromCandidateResponseToCandidateMapper(findCandidate(id));
+    }
 }

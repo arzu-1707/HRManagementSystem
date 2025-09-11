@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class CandidateController {
     private final CandidateService candidateService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<CommonResponse<Page<CandidateResponse>>> getALl(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize
@@ -28,6 +28,13 @@ public class CandidateController {
         Page<CandidateResponse> getAll = candidateService.findALl(page);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(getAll));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommonResponse<CandidateResponse>> getCandidateById(@PathVariable Long id){
+        CandidateResponse candidateResponse = candidateService.findCandidateById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success("Operation is successfully", candidateResponse));
     }
 
     @PostMapping("/new")
@@ -39,9 +46,9 @@ public class CandidateController {
                 .body(CommonResponse.success(candidateResponse));
     }
 
-    @DeleteMapping("/{candidateId}")
-    public ResponseEntity<CommonResponse<Void>> deleteCandidate(@PathVariable Long candidateId){
-        candidateService.deleteCandidate(candidateId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CommonResponse<Void>> deleteCandidate(@PathVariable Long id){
+        candidateService.deleteCandidate(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success("Operation is successfully",null));
     }
