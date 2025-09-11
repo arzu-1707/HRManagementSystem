@@ -4,6 +4,7 @@ import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.EducationResponse;
 import org.springframework.data.domain.Page;
 
 public class FromEntityToResponse {
@@ -26,5 +27,14 @@ public class FromEntityToResponse {
                         Education::getId
                 ).toList())
                 .tel(candidate.getTelNo().stream().map(TelNo::getNumber).toList()).build();
+    }
+
+    public static EducationResponse fromEducationToEducationResponse(Education education) {
+        return EducationResponse.builder()
+                .id(education.getId())
+                .degree(education.getDegree())
+                .name(education.getName())
+                .profession(education.getProfession())
+                .build();
     }
 }

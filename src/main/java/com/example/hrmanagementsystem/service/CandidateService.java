@@ -1,21 +1,26 @@
 package com.example.hrmanagementsystem.service;
 
+import com.example.hrmanagementsystem.exceptions.education.EducationNotFoundException;
 import com.example.hrmanagementsystem.mapper.FromEntityToResponse;
 import com.example.hrmanagementsystem.mapper.FromRequestToEntity;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateAlreadyExistsException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
+import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.request.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +73,15 @@ public class CandidateService {
 
     public CandidateResponse findCandidateById(Long id) {
        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(findCandidate(id));
+    }
+
+    public List<EducationResponse> findCandidateEducations(Long id) {
+        Candidate candidate = findCandidate(id);
+        List<Education> educations = candidate.getEducations();
+        if (educations.isEmpty()){
+            throw new EducationNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION);
+        }
+       return educations.stream()
+                .map(FromEntityToResponse::fromEducationToEducationResponse).toList();
     }
 }

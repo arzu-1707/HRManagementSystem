@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EducationResponse {
+
+    private Long id;
     @Enumerated(EnumType.STRING)
     private DEGREE degree;
 

@@ -4,6 +4,7 @@ import com.example.hrmanagementsystem.model.CommonResponse;
 import com.example.hrmanagementsystem.model.request.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/candidate")
@@ -37,6 +40,13 @@ public class CandidateController {
                 .body(CommonResponse.success("Operation is successfully", candidateResponse));
     }
 
+    @GetMapping("{id}/educations")
+    public ResponseEntity<CommonResponse<List<EducationResponse>>> getEduInCandidate(@PathVariable Long id){
+        List<EducationResponse> candidateResponse = candidateService.findCandidateEducations(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(candidateResponse));
+    }
+
     @PostMapping("/new")
     public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
             @RequestBody CandidateRequest candidateRequest
@@ -45,6 +55,7 @@ public class CandidateController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(candidateResponse));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CommonResponse<Void>> deleteCandidate(@PathVariable Long id){
