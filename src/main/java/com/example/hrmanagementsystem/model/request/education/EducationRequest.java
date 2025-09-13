@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.model.request;
+package com.example.hrmanagementsystem.model.request.education;
 
 import com.example.hrmanagementsystem.model.enums.DEGREE;
 import com.fasterxml.jackson.annotation.JsonFormat;

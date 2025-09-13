@@ -9,14 +9,14 @@ import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import org.springframework.data.domain.Page;
 
 public class FromEntityToResponse {
-    public static Page<CandidateResponse> fromCandidateResponseToPageCandidateMapper(Page<Candidate> all) {
+    public static Page<CandidateResponse> fromCandidateToPageCandidateResponseMapper(Page<Candidate> all) {
 
         return all
-                .map(FromEntityToResponse::fromCandidateResponseToCandidateMapper);
+                .map(FromEntityToResponse::fromCandidateToCandidateResponseMapper);
     }
 
 
-    public static CandidateResponse fromCandidateResponseToCandidateMapper(Candidate candidate){
+    public static CandidateResponse fromCandidateToCandidateResponseMapper(Candidate candidate){
         return CandidateResponse.builder()
                 .id(candidate.getId())
                 .name(candidate.getName())

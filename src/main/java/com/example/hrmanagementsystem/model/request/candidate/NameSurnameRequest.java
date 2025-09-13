@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.model.request;
+package com.example.hrmanagementsystem.model.request.candidate;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

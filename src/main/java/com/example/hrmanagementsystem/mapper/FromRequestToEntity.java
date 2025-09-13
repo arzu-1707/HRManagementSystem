@@ -3,23 +3,34 @@ package com.example.hrmanagementsystem.mapper;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
-import com.example.hrmanagementsystem.model.request.CandidateRequest;
-import com.example.hrmanagementsystem.model.request.EducationRequest;
-import com.example.hrmanagementsystem.model.request.TelNoRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEducationTelNo;
+import com.example.hrmanagementsystem.model.request.education.EducationRequest;
+import com.example.hrmanagementsystem.model.request.telNo.TelNoRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FromRequestToEntity {
-    public static Candidate fromCandidateRequestToEntityMapper(CandidateRequest candidateRequest) {
+    public static Candidate fromCandidateRequestToEntityMapper(CandidateWithEducationTelNo candidateWithEducationTelNo) {
+        return Candidate.builder()
+                .name(candidateWithEducationTelNo.getName())
+                .surName(candidateWithEducationTelNo.getSurName())
+                .gender(candidateWithEducationTelNo.getGender())
+                .birthDate(candidateWithEducationTelNo.getBirthDate())
+                .birthPlace(candidateWithEducationTelNo.getBirthPlace())
+                .educations(fromEducationListRequestToEducationEntityMapper(candidateWithEducationTelNo.getEducation()))
+                .telNo(fromTelNoRequestToTelNoEntityMapper(candidateWithEducationTelNo.getTelNo()))
+                .build();
+    }
+
+    public static Candidate fromCandidateRequestToEntityMapper(CandidateRequest candidateRequest){
         return Candidate.builder()
                 .name(candidateRequest.getName())
                 .surName(candidateRequest.getSurName())
                 .gender(candidateRequest.getGender())
                 .birthDate(candidateRequest.getBirthDate())
                 .birthPlace(candidateRequest.getBirthPlace())
-                .educations(fromEducationListRequestToEducationEntityMapper(candidateRequest.getEducation()))
-                .telNo(fromTelNoRequestToTelNoEntityMapper(candidateRequest.getTelNo()))
                 .build();
     }
 

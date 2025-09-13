@@ -1,4 +1,4 @@
-package com.example.hrmanagementsystem.model.request;
+package com.example.hrmanagementsystem.model.request.telNo;
 
 import lombok.Builder;
 import lombok.Data;

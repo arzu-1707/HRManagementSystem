@@ -10,8 +10,9 @@ import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.enums.ERRORCODE;
-import com.example.hrmanagementsystem.model.request.CandidateRequest;
-import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEducationTelNo;
+import com.example.hrmanagementsystem.model.request.candidate.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
@@ -36,23 +37,23 @@ public class CandidateService {
         if (all.isEmpty()){
             throw new CandidatesNotFoundException(ERRORCODE.CANDIDATES_NOT_FOUND_EXCEPTION);
         }
-        return FromEntityToResponse.fromCandidateResponseToPageCandidateMapper(all);
+        return FromEntityToResponse.fromCandidateToPageCandidateResponseMapper(all);
     }
 
     @Transactional
-    public CandidateResponse addNewCandidate(CandidateRequest candidateRequest) {
-        if (candidateRepository.existsCandidateByNameAndSurNameIgnoreCase(candidateRequest.getName(), candidateRequest.getSurName())){
+    public CandidateResponse addNewCandidate(CandidateWithEducationTelNo candidateWithEducationTelNo) {
+        if (candidateRepository.existsCandidateByNameAndSurNameIgnoreCase(candidateWithEducationTelNo.getName(), candidateWithEducationTelNo.getSurName())){
             throw new CandidateAlreadyExistsException(ERRORCODE.CANDIDATE_ALREADY_EXISTS_EXCEPTION);
         };
 
-       Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateRequest);
+       Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateWithEducationTelNo);
         candidate.getEducations().forEach(e -> e.setCandidate(candidate));
         candidate.getTelNo().forEach(t -> t.setCandidate(candidate));
 
         Candidate savedCandidate = candidateRepository.save(candidate);
 
 
-        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(savedCandidate);
+        return FromEntityToResponse.fromCandidateToCandidateResponseMapper(savedCandidate);
     }
 
     public void deleteCandidate(Long candidateId) {
@@ -66,7 +67,7 @@ public class CandidateService {
         candidate.setName(nameSurnameRequest.getName());
         candidate.setSurName(nameSurnameRequest.getSurName());
         Candidate save = candidateRepository.save(candidate);
-        return FromEntityToResponse.fromCandidateResponseToCandidateMapper(save);
+        return FromEntityToResponse.fromCandidateToCandidateResponseMapper(save);
     }
     
     public Candidate findCandidate(Long id){
@@ -74,7 +75,7 @@ public class CandidateService {
     }
 
     public CandidateResponse findCandidateById(Long id) {
-       return FromEntityToResponse.fromCandidateResponseToCandidateMapper(findCandidate(id));
+       return FromEntityToResponse.fromCandidateToCandidateResponseMapper(findCandidate(id));
     }
 
     public List<EducationResponse> findCandidateEducations(Long id) {
@@ -92,5 +93,13 @@ public class CandidateService {
         List<TelNo> telNos = candidate.getTelNo();
         return telNos.stream()
                 .map(FromEntityToResponse::fromTelNoToTelNoResponse).toList();
+    }
+
+    public CandidateResponse addNewCandidate1(CandidateRequest candidateRequest) {
+        Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateRequest);
+
+        Candidate save = candidateRepository.save(candidate);
+
+       return FromEntityToResponse.fromCandidateToCandidateResponseMapper(save);
     }
 }

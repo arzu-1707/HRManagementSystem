@@ -1,29 +1,23 @@
-package com.example.hrmanagementsystem.model.response;
+package com.example.hrmanagementsystem.model.request.candidate;
 
 import com.example.hrmanagementsystem.model.enums.GENDER;
+import com.example.hrmanagementsystem.model.request.education.EducationRequest;
+import com.example.hrmanagementsystem.model.request.telNo.TelNoRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CandidateResponse {
+public class CandidateWithEducationTelNo {
 
-    private Long id;
     private String name;
 
     private String surName;
@@ -36,7 +30,7 @@ public class CandidateResponse {
 
     private String birthPlace;
 
-    List<Long> educations = new ArrayList<>();
+    private List<EducationRequest> education;
 
-    List<String> tel = new ArrayList<>();
+    private List<TelNoRequest> telNo;
 }

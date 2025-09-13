@@ -1,21 +1,17 @@
-package com.example.hrmanagementsystem.model.request;
+package com.example.hrmanagementsystem.model.request.candidate;
 
 import com.example.hrmanagementsystem.model.enums.GENDER;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class CandidateRequest {
-
     private String name;
 
     private String surName;
@@ -27,8 +23,4 @@ public class CandidateRequest {
     private LocalDate birthDate;
 
     private String birthPlace;
-
-    private List<EducationRequest> education;
-
-    private List<TelNoRequest> telNo;
 }

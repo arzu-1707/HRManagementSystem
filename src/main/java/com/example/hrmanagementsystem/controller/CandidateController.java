@@ -1,8 +1,9 @@
 package com.example.hrmanagementsystem.controller;
 
 import com.example.hrmanagementsystem.model.CommonResponse;
-import com.example.hrmanagementsystem.model.request.CandidateRequest;
-import com.example.hrmanagementsystem.model.request.NameSurnameRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateRequest;
+import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEducationTelNo;
+import com.example.hrmanagementsystem.model.request.candidate.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
@@ -55,11 +56,20 @@ public class CandidateController {
                 .body(CommonResponse.success(telNo));
     }
 
-    @PostMapping("/new")
+    @PostMapping
+    public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
+            @RequestBody CandidateWithEducationTelNo candidateWithEducationTelNo
+            ){
+        CandidateResponse candidateResponse = candidateService.addNewCandidate(candidateWithEducationTelNo);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(candidateResponse));
+    }
+
+    @PostMapping
     public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
             @RequestBody CandidateRequest candidateRequest
-            ){
-        CandidateResponse candidateResponse = candidateService.addNewCandidate(candidateRequest);
+    ){
+        CandidateResponse candidateResponse = candidateService.addNewCandidate1(candidateRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(candidateResponse));
     }
