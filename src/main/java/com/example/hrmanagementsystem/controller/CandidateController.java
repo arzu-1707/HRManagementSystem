@@ -4,11 +4,20 @@ import com.example.hrmanagementsystem.model.CommonResponse;
 import com.example.hrmanagementsystem.model.request.candidate.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEducationTelNo;
 import com.example.hrmanagementsystem.model.request.candidate.NameSurnameRequest;
+import com.example.hrmanagementsystem.model.request.education.EducationListRequest;
+import com.example.hrmanagementsystem.model.request.education.EducationRequest;
+import com.example.hrmanagementsystem.model.request.telNo.TelNoListRequest;
+import com.example.hrmanagementsystem.model.request.telNo.TelNoRequest;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
+import com.example.hrmanagementsystem.service.EducationService;
+import com.example.hrmanagementsystem.service.TelNoService;
+import jakarta.activation.CommandMap;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +32,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
+    private final EducationService educationService;
+    private final TelNoService telNoService;
 
     @GetMapping("/all")
     public ResponseEntity<CommonResponse<Page<CandidateResponse>>> getALl(
@@ -56,7 +67,7 @@ public class CandidateController {
                 .body(CommonResponse.success(telNo));
     }
 
-    @PostMapping
+    @PostMapping("/new-with-edu-tel")
     public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
             @RequestBody CandidateWithEducationTelNo candidateWithEducationTelNo
             ){
@@ -70,6 +81,27 @@ public class CandidateController {
             @RequestBody CandidateRequest candidateRequest
     ){
         CandidateResponse candidateResponse = candidateService.addNewCandidate1(candidateRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(candidateResponse));
+    }
+
+    @PostMapping("/{id}/add-edu")
+    public ResponseEntity<CommonResponse<CandidateResponse>> addEducation(
+            @PathVariable Long id,
+            @RequestBody EducationListRequest educations){
+
+        CandidateResponse candidateResponse = educationService.addEduInCandidate(id, educations);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.success(candidateResponse));
+    }
+
+
+    @PostMapping("/{id}/add-tel")
+    public ResponseEntity<CommonResponse<CandidateResponse>> addTelNo(
+            @PathVariable Long id,
+            @RequestBody TelNoListRequest telNoRequest
+            ){
+        CandidateResponse candidateResponse = telNoService.addTelNoInCandidate(id, telNoRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(candidateResponse));
     }
