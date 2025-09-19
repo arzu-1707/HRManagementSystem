@@ -38,6 +38,10 @@ public class CandidateService {
         return FromEntityToResponse.fromCandidateToPageCandidateResponseMapper(all);
     }
 
+    public Candidate findCandidate(Long id){
+        return candidateRepository.findById(id).orElseThrow(()-> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION) );
+    }
+
     @Transactional
     public CandidateResponse addNewCandidate(CandidateWithEducationTelNo candidateWithEducationTelNo) {
         if (candidateRepository.existsCandidateByNameAndSurNameIgnoreCase(candidateWithEducationTelNo.getName(), candidateWithEducationTelNo.getSurName())){
@@ -68,9 +72,7 @@ public class CandidateService {
         return FromEntityToResponse.fromCandidateToCandidateResponseMapper(save);
     }
     
-    public Candidate findCandidate(Long id){
-       return candidateRepository.findById(id).orElseThrow(()-> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION) );
-    }
+
 
     public CandidateResponse findCandidateById(Long id) {
        return FromEntityToResponse.fromCandidateToCandidateResponseMapper(findCandidate(id));
