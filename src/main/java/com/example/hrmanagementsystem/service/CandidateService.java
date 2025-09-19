@@ -29,8 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CandidateService {
     private final CandidateRepository candidateRepository;
-    private final EducationService educationService;
-    private final TelNoService telNoService;
 
     public Page<CandidateResponse> findALl(Pageable page) {
         Page<Candidate> all = candidateRepository.findAll(page);
