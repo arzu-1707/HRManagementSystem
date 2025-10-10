@@ -17,6 +17,7 @@ import com.example.hrmanagementsystem.service.TelNoService;
 import jakarta.activation.CommandMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchTransactionManager;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -121,4 +122,6 @@ public class CandidateController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success("Operation is successfully", candidateResponse));
     }
+
+
 }

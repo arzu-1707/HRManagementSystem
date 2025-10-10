@@ -1,9 +1,7 @@
 package com.example.hrmanagementsystem.service;
 
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
-import com.example.hrmanagementsystem.exceptions.candidate.CandidatesNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
-import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.enums.GENDER;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
@@ -20,12 +18,10 @@ import org.springframework.data.domain.PageRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertThrows;
