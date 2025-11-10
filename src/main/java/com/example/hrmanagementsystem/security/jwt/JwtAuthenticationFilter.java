@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Slf4j
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
@@ -37,11 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userName;
 
         String path = request.getServletPath();
-//
-//        if (path.startsWith("/common")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
+
         log.info("İstek geldi: {}", path);
 
 
@@ -78,8 +75,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
         filterChain.doFilter(request, response);
+    }
+
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+
+        // Swagger və açıq endpoint-ləri JWT yoxlamasından çıxarırıq
+        return path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-resources")
+                || path.startsWith("/webjars")
+                || path.equals("/swagger-ui.html");
     }
 
 }
