@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,7 +14,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUsers {
+public class AppUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

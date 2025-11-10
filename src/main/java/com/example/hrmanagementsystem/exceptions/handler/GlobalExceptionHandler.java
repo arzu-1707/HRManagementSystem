@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    //                    Education Exception
+    //                    Educations Exception
     @ExceptionHandler(EducationNotFoundException.class)
     public ResponseEntity<ErrorResponse> educationNotFoundExceptionHandler(
             EducationNotFoundException ex, HttpServletRequest httpServletRequest

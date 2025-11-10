@@ -1,11 +1,13 @@
 package com.example.hrmanagementsystem.mapper;
 
+import com.example.hrmanagementsystem.model.entity.AppUser;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.response.CandidateResponse;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
+import com.example.hrmanagementsystem.model.response.user.UserResponse;
 import org.springframework.data.domain.Page;
 
 public class FromEntityToResponse {
@@ -43,6 +45,13 @@ public class FromEntityToResponse {
         return TelNoResponse.builder()
                 .id(telNo.getId())
                 .number(telNo.getNumber())
+                .build();
+    }
+
+    public static UserResponse fromUserEntityToUserResponse(AppUser savedUser) {
+        return UserResponse.builder()
+                .userName(savedUser.getUserName())
+                .id(savedUser.getId())
                 .build();
     }
 }
