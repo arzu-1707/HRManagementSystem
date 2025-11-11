@@ -18,7 +18,6 @@ public class UserResponse {
     private Long id;
     private String userName;
 
-    private Set<RoleResponse> roles;
 
     private String accessToken;
     private String refreshToken;

@@ -11,7 +11,7 @@ import javax.management.relation.RoleNotFoundException;
 @Service
 @RequiredArgsConstructor
 public class RoleService {
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
 
     public Role findByRole(String user) {

@@ -15,5 +15,4 @@ public class AppUserRequest {
 
     private String password;
 
-    private Set<RoleRequest> role;
 }

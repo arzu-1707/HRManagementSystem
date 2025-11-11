@@ -1,8 +1,8 @@
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/hrmanagementsystem
-    username: arzu
-    password: 1234
+    url: jdbc:postgresql://localhost:5432/myprojects
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:

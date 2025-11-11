@@ -7,6 +7,7 @@ import com.example.hrmanagementsystem.model.request.education.EducationRequest;
 import com.example.hrmanagementsystem.model.request.telNo.TelNoRequest;
 import com.example.hrmanagementsystem.model.request.user.AppUserRequest;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,10 +62,9 @@ public class FromRequestToEntity {
 
     public static AppUser fromAppUserRequestToEntity(AppUserRequest appUserRequest) {
         return AppUser.builder()
+                .userName(appUserRequest.getUserName())
                 .password(appUserRequest.getPassword())
-                .role(appUserRequest.getRole().stream()
-                        .map(roleRequest -> Role.builder()
-                                .role(roleRequest.getRole()).build()).collect(Collectors.toSet()))
+                .role(new HashSet<>())
                 .build();
     }
 }

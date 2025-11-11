@@ -6,18 +6,21 @@ import com.example.hrmanagementsystem.model.request.user.AppUserRequest;
 import com.example.hrmanagementsystem.model.response.user.UserResponse;
 import com.example.hrmanagementsystem.model.response.user.UserTokenResponse;
 import com.example.hrmanagementsystem.service.AppUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
-    private AppUserService appUserService;
+    private final AppUserService appUserService;
 
 
     @PostMapping("/register")
@@ -25,7 +28,7 @@ public class AuthController {
         UserResponse register = appUserService.register(appUserRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(register.getUserName()+
-                        "adli istifadeci muveffeqiyyetle qeydiyyatdan kecmisdir..", register));
+                        " adli istifadeci muveffeqiyyetle qeydiyyatdan kecmisdir..", register));
     }
 
     @PostMapping("/login")

@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class CandidateController {
     private final EducationService educationService;
     private final TelNoService telNoService;
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/all")
     public ResponseEntity<CommonResponse<Page<CandidateResponse>>> getALl(
             @RequestParam(defaultValue = "0") int pageNumber,
@@ -41,6 +43,7 @@ public class CandidateController {
                 .body(CommonResponse.success(getAll));
     }
 
+    @PreAuthorize("hasRole('ADMIN')or hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<CandidateResponse>> getCandidateById(@PathVariable Long id){
         CandidateResponse candidateResponse = candidateService.findCandidateById(id);
@@ -49,6 +52,7 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}/educations")
+    @PreAuthorize("hasRole('ADMIN')or hasRole('USER')")
     public ResponseEntity<CommonResponse<List<EducationResponse>>> getEduInCandidate(@PathVariable Long id){
         List<EducationResponse> educationResponses = candidateService.findCandidateEducations(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -56,6 +60,7 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}/tel-no")
+    @PreAuthorize("hasRole('ADMIN')or hasRole('USER')")
     public ResponseEntity<CommonResponse<List<TelNoResponse>>> getTelNoInCandidate(@PathVariable Long id){
         List<TelNoResponse> telNo = candidateService.findCandidateTelNos(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -63,6 +68,7 @@ public class CandidateController {
     }
 
     @PostMapping("/new-with-edu-tel")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
             @RequestBody CandidateWithEducationTelNo candidateWithEducationTelNo
             ){
@@ -72,6 +78,7 @@ public class CandidateController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
             @RequestBody CandidateRequest candidateRequest
     ){
@@ -81,6 +88,7 @@ public class CandidateController {
     }
 
     @PostMapping("/{id}/add-edu")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse<CandidateResponse>> addEducation(
             @PathVariable Long id,
             @RequestBody EducationListRequest educations){

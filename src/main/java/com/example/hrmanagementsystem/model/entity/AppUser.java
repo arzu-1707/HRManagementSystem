@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -14,6 +15,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "app_user")
 public class AppUser {
 
     @Id
@@ -29,9 +31,9 @@ public class AppUser {
     @ManyToMany
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> role;
+    private Set<Role> role = new HashSet<>();
 
 }
