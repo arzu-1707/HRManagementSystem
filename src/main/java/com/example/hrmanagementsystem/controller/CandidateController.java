@@ -6,7 +6,7 @@ import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEduca
 import com.example.hrmanagementsystem.model.request.candidate.NameSurnameRequest;
 import com.example.hrmanagementsystem.model.request.education.EducationListRequest;
 import com.example.hrmanagementsystem.model.request.telNo.TelNoListRequest;
-import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.candidate.CandidateResponseWithEducationsAndTelNo;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.service.CandidateService;
@@ -33,22 +33,22 @@ public class CandidateController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/all")
-    public ResponseEntity<CommonResponse<Page<CandidateResponse>>> getALl(
+    public ResponseEntity<CommonResponse<Page<CandidateResponseWithEducationsAndTelNo>>> getALl(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize
     ){
         Pageable page = PageRequest.of(pageNumber, pageSize);
-        Page<CandidateResponse> getAll = candidateService.findALl(page);
+        Page<CandidateResponseWithEducationsAndTelNo> getAll = candidateService.findALl(page);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.success(getAll));
     }
 
     @PreAuthorize("hasRole('ADMIN')or hasRole('USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse<CandidateResponse>> getCandidateById(@PathVariable Long id){
-        CandidateResponse candidateResponse = candidateService.findCandidateById(id);
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> getCandidateById(@PathVariable Long id){
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = candidateService.findCandidateById(id);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success("Operation is successfully", candidateResponse));
+                .body(CommonResponse.success("Operation is successfully", candidateResponseWithEducationsAndTelNo));
     }
 
     @GetMapping("/{id}/educations")
@@ -69,48 +69,50 @@ public class CandidateController {
 
     @PostMapping("/new-with-edu-tel")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> addCandidate(
             @RequestBody CandidateWithEducationTelNo candidateWithEducationTelNo
             ){
-        CandidateResponse candidateResponse = candidateService.addNewCandidate(candidateWithEducationTelNo);
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = candidateService.addNewCandidate(candidateWithEducationTelNo);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success(candidateResponse));
+                .body(CommonResponse.success(candidateResponseWithEducationsAndTelNo));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CommonResponse<CandidateResponse>> addCandidate(
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> addCandidate(
             @RequestBody CandidateRequest candidateRequest
     ){
-        CandidateResponse candidateResponse = candidateService.addNewCandidate1(candidateRequest);
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = candidateService.addNewCandidate1(candidateRequest);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success(candidateResponse));
+                .body(CommonResponse.success(candidateResponseWithEducationsAndTelNo));
     }
 
     @PostMapping("/{id}/add-edu")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CommonResponse<CandidateResponse>> addEducation(
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> addEducation(
             @PathVariable Long id,
             @RequestBody EducationListRequest educations){
 
-        CandidateResponse candidateResponse = educationService.addEduInCandidate(id, educations);
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = educationService.addEduInCandidate(id, educations);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success(candidateResponse));
+                .body(CommonResponse.success(candidateResponseWithEducationsAndTelNo));
     }
 
 
     @PostMapping("/{id}/add-tel")
-    public ResponseEntity<CommonResponse<CandidateResponse>> addTelNo(
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> addTelNo(
             @PathVariable Long id,
             @RequestBody TelNoListRequest telNoRequest
             ){
-        CandidateResponse candidateResponse = telNoService.addTelNoInCandidate(id, telNoRequest);
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = telNoService.addTelNoInCandidate(id, telNoRequest);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success(candidateResponse));
+                .body(CommonResponse.success(candidateResponseWithEducationsAndTelNo));
     }
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse<Void>> deleteCandidate(@PathVariable Long id){
         candidateService.deleteCandidate(id);
         return ResponseEntity.status(HttpStatus.OK)
@@ -118,11 +120,12 @@ public class CandidateController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CommonResponse<CandidateResponse>> updateCandidate(@PathVariable Long id,
-                                                                             @RequestBody NameSurnameRequest nameSurnameRequest){
-        CandidateResponse candidateResponse = candidateService.updateCandidate(id, nameSurnameRequest);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CommonResponse<CandidateResponseWithEducationsAndTelNo>> updateCandidate(@PathVariable Long id,
+                                                                                                   @RequestBody NameSurnameRequest nameSurnameRequest){
+        CandidateResponseWithEducationsAndTelNo candidateResponseWithEducationsAndTelNo = candidateService.updateCandidate(id, nameSurnameRequest);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonResponse.success("Operation is successfully", candidateResponse));
+                .body(CommonResponse.success("Operation is successfully", candidateResponseWithEducationsAndTelNo));
     }
 
 

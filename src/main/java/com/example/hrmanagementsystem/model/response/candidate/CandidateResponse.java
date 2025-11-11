@@ -1,16 +1,15 @@
-package com.example.hrmanagementsystem.model.response;
+package com.example.hrmanagementsystem.model.response.candidate;
+
 
 import com.example.hrmanagementsystem.model.enums.GENDER;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +35,4 @@ public class CandidateResponse {
 
     private String birthPlace;
 
-    List<Long> educations = new ArrayList<>();
-
-    List<String> tel = new ArrayList<>();
 }

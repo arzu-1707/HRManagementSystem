@@ -4,22 +4,22 @@ import com.example.hrmanagementsystem.model.entity.AppUser;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.Education;
 import com.example.hrmanagementsystem.model.entity.TelNo;
-import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.candidate.CandidateResponseWithEducationsAndTelNo;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.model.response.user.UserResponse;
 import org.springframework.data.domain.Page;
 
 public class FromEntityToResponse {
-    public static Page<CandidateResponse> fromCandidateToPageCandidateResponseMapper(Page<Candidate> all) {
+    public static Page<CandidateResponseWithEducationsAndTelNo> fromCandidateToPageCandidateResponseMapper(Page<Candidate> all) {
 
         return all
                 .map(FromEntityToResponse::fromCandidateToCandidateResponseMapper);
     }
 
 
-    public static CandidateResponse fromCandidateToCandidateResponseMapper(Candidate candidate){
-        return CandidateResponse.builder()
+    public static CandidateResponseWithEducationsAndTelNo fromCandidateToCandidateResponseMapper(Candidate candidate){
+        return CandidateResponseWithEducationsAndTelNo.builder()
                 .id(candidate.getId())
                 .name(candidate.getName())
                 .surName(candidate.getSurName())

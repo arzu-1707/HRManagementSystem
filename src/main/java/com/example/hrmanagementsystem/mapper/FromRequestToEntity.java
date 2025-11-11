@@ -63,7 +63,6 @@ public class FromRequestToEntity {
     public static AppUser fromAppUserRequestToEntity(AppUserRequest appUserRequest) {
         return AppUser.builder()
                 .userName(appUserRequest.getUserName())
-                .password(appUserRequest.getPassword())
                 .role(new HashSet<>())
                 .build();
     }

@@ -3,7 +3,7 @@ package com.example.hrmanagementsystem.service;
 import com.example.hrmanagementsystem.exceptions.candidate.CandidateNotFoundException;
 import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.enums.GENDER;
-import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.candidate.CandidateResponseWithEducationsAndTelNo;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ public class CandidateServiceTest {
 
 
         //when
-        Page<CandidateResponse> result = candidateService.findALl(pageable);
+        Page<CandidateResponseWithEducationsAndTelNo> result = candidateService.findALl(pageable);
 
 
         //assert

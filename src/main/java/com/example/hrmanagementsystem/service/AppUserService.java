@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final RoleService roleService;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
@@ -64,6 +66,8 @@ public class AppUserService {
           }
           appUser.getRole().add(role);
        }
+
+       appUser.setPassword(passwordEncoder.encode(appUserRequest.getPassword()));
 
         AppUser savedUser = appUserRepository.save(appUser);
 

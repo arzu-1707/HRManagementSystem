@@ -7,11 +7,10 @@ import com.example.hrmanagementsystem.model.entity.Candidate;
 import com.example.hrmanagementsystem.model.entity.TelNo;
 import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.request.telNo.TelNoListRequest;
-import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.candidate.CandidateResponseWithEducationsAndTelNo;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
 import com.example.hrmanagementsystem.repository.TelNoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class TelNoService {
         return telNoRepository.save(telNo);
     }
 
-    public CandidateResponse addTelNoInCandidate(Long id, TelNoListRequest telNoRequest) {
+    public CandidateResponseWithEducationsAndTelNo addTelNoInCandidate(Long id, TelNoListRequest telNoRequest) {
         Candidate candidate = candidateRepository.findById(id).orElseThrow(() -> new CandidateNotFoundException(ERRORCODE.CANDIDATE_NOT_FOUND_EXCEPTION));
 
         List<TelNo> telNos = FromRequestToEntity.fromTelNoListRequestToTelNoEntityMapper(telNoRequest.getTelNoRequests());

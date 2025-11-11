@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     boolean existsCandidateByNameAndSurNameIgnoreCase(@NotBlank String name, @NotBlank String surName);
+
+    List<Candidate> findAllByNameAndSurNameAndBirthDate(String name, String surName, LocalDate birthDate);
 }

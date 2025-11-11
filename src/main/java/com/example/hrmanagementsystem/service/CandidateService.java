@@ -13,7 +13,7 @@ import com.example.hrmanagementsystem.model.enums.ERRORCODE;
 import com.example.hrmanagementsystem.model.request.candidate.CandidateRequest;
 import com.example.hrmanagementsystem.model.request.candidate.CandidateWithEducationTelNo;
 import com.example.hrmanagementsystem.model.request.candidate.NameSurnameRequest;
-import com.example.hrmanagementsystem.model.response.CandidateResponse;
+import com.example.hrmanagementsystem.model.response.candidate.CandidateResponseWithEducationsAndTelNo;
 import com.example.hrmanagementsystem.model.response.EducationResponse;
 import com.example.hrmanagementsystem.model.response.telNO.TelNoResponse;
 import com.example.hrmanagementsystem.repository.CandidateRepository;
@@ -30,7 +30,7 @@ import java.util.List;
 public class CandidateService {
     private final CandidateRepository candidateRepository;
 
-    public Page<CandidateResponse> findALl(Pageable page) {
+    public Page<CandidateResponseWithEducationsAndTelNo> findALl(Pageable page) {
         Page<Candidate> all = candidateRepository.findAll(page);
         if (all.isEmpty()){
             throw new CandidatesNotFoundException(ERRORCODE.CANDIDATES_NOT_FOUND_EXCEPTION);
@@ -43,7 +43,7 @@ public class CandidateService {
     }
 
     @Transactional
-    public CandidateResponse addNewCandidate(CandidateWithEducationTelNo candidateWithEducationTelNo) {
+    public CandidateResponseWithEducationsAndTelNo addNewCandidate(CandidateWithEducationTelNo candidateWithEducationTelNo) {
         if (candidateRepository.existsCandidateByNameAndSurNameIgnoreCase(candidateWithEducationTelNo.getName(), candidateWithEducationTelNo.getSurName())){
             throw new CandidateAlreadyExistsException(ERRORCODE.CANDIDATE_ALREADY_EXISTS_EXCEPTION);
         };
@@ -64,7 +64,7 @@ public class CandidateService {
         candidateRepository.delete(candidate);
     }
 
-    public CandidateResponse updateCandidate(Long id, NameSurnameRequest nameSurnameRequest) {
+    public CandidateResponseWithEducationsAndTelNo updateCandidate(Long id, NameSurnameRequest nameSurnameRequest) {
         Candidate candidate = findCandidate(id);
         candidate.setName(nameSurnameRequest.getName());
         candidate.setSurName(nameSurnameRequest.getSurName());
@@ -74,7 +74,7 @@ public class CandidateService {
     
 
 
-    public CandidateResponse findCandidateById(Long id) {
+    public CandidateResponseWithEducationsAndTelNo findCandidateById(Long id) {
        return FromEntityToResponse.fromCandidateToCandidateResponseMapper(findCandidate(id));
     }
 
@@ -95,8 +95,18 @@ public class CandidateService {
                 .map(FromEntityToResponse::fromTelNoToTelNoResponse).toList();
     }
 
-    public CandidateResponse addNewCandidate1(CandidateRequest candidateRequest) {
+    public CandidateResponseWithEducationsAndTelNo addNewCandidate1(CandidateRequest candidateRequest) {
         Candidate candidate = FromRequestToEntity.fromCandidateRequestToEntityMapper(candidateRequest);
+
+        List<Candidate> allByNameAndSurNameAndBirthDate =
+                candidateRepository
+                        .findAllByNameAndSurNameAndBirthDate(candidateRequest.getName(),
+                                candidateRequest.getSurName(),
+                                candidateRequest.getBirthDate());
+
+        if (!allByNameAndSurNameAndBirthDate.isEmpty()){
+            throw new CandidateAlreadyExistsException(ERRORCODE.CANDIDATE_ALREADY_EXISTS_EXCEPTION);
+        }
 
         Candidate save = candidateRepository.save(candidate);
 
