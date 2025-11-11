@@ -31,6 +31,8 @@ public class CandidateController {
     private final EducationService educationService;
     private final TelNoService telNoService;
 
+    //
+
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/all")
     public ResponseEntity<CommonResponse<Page<CandidateResponseWithEducationsAndTelNo>>> getALl(
